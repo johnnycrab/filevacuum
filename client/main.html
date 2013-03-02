@@ -1,0 +1,56 @@
+<template name="main">
+	<div id="wrapper">
+		{{#if hasFileSearch}}
+			{{# if hasResults}}
+				{{> filelist}}
+			{{else}}
+				{{> pending}}
+			{{/if}}
+		{{else}}
+			<div id="searchform">
+				{{> searchform}}
+			</div>
+		{{/if}}
+	</div>
+</template>
+
+<template name="searchform">
+	<input type="text" placeholder="search for..." value="{{term}}" name="file" />
+	<button class="doSearch">Search!</button><br /><br />
+	<input type="checkbox" name="ulonly" {{#if uploadedOnly}}checked{{/if}} />&nbsp;Search on uploaded.net only
+</template>
+
+<template name="pending">
+	<div id="pending">
+		<p>sucking...</p>
+		<img src="/sucking.gif" />
+	</div>	
+</template>
+
+<template name="filelist">
+	<div>
+		{{> searchform}}
+	</div>
+	{{#if results.filestube}}
+		<div id="pagination">
+			{{#if isntFirst results.filestube}}
+				<a class="prev" href="#">Prev</a>
+			{{/if}}
+			{{#if results.filestube.data}}
+				<a class="next" href="#">Next</a>
+			{{/if}}
+		</div>
+		{{#if results.filestube.data}}
+			<ul>
+			{{#each results.filestube.data}}
+				<li>
+					<h4>{{title}}</h4>
+					<p class="meta">{{meta}}</p>
+					<p class="source"><strong>Source: </strong><a href="{{src}}">{{src}}</a></p>
+					<textarea class="downloadLinks" readonly cols="100">{{downloadLinks}}</textarea>
+				</li>
+			{{/each}}
+			</ul>
+		{{/if}}
+	{{/if}}
+</template>
